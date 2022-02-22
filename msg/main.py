@@ -72,11 +72,12 @@ if logins:
         res = zapzap.sendMessage(url, numero, mensagem.replace('{nome}', nome))
 
         if (res['status']):
-            sucessos.append([nome, whatsapp, mensagem.replace('{nome}', nome)])
+            sucessos.append([nome, whatsapp])
         else:
             erros.append([nome, whatsapp, res['message']])
 
         cont = cont + 1
+
 else:
     print('\n😁 Nenhum login encontrado\n')
     exit()
