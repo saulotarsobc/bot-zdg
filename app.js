@@ -1,11 +1,21 @@
-const { Client, List, Buttons, MessageMedia } = require('whatsapp-web.js');
+const {
+  Client,
+  List,
+  Buttons,
+  MessageMedia
+} = require('whatsapp-web.js');
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const {
+  body,
+  validationResult
+} = require('express-validator');
 const socketIO = require('socket.io');
 const qrcode = require('qrcode');
 const http = require('http');
 const fs = require('fs');
-const { phoneNumberFormatter } = require('./helpers/formatter');
+const {
+  phoneNumberFormatter
+} = require('./helpers/formatter');
 const fileUpload = require('express-fileupload');
 const axios = require('axios');
 const mime = require('mime-types');
@@ -57,33 +67,41 @@ const client = new Client({
 client.on('message', async msg => {
   if (msg.body !== null && msg.body.includes("Quero saber mais sobre o Método ZDG.")) {
     msg.reply("🤑 AUMENTE O FATURAMENTO DOS SEUS LANÇAMENTOS DISPARANDO MENSAGENS DIRETAMENTE PARA O WHATSAPP PESSOAL DE CADA LEAD, SEM PRECISAR DE CELULAR. DE FORMA AUTOMÁTICA E EM MASSA. \r\n\r\nhttps://zapdasgalaxias.com.br/ \r\n\r\n⏱️ As inscrições estão *ABERTAS*");
-  } 
-  
-  else if (msg.body !== null && msg.body.includes("Gostaria de conhecer alguns estudos de caso.")) {
+  } else if (msg.body !== null && msg.body.includes("Gostaria de conhecer alguns estudos de caso.")) {
     msg.reply("*Que ótimo, vou te enviar alguns cases de sucesso:*\r\n\r\n📺 https://youtu.be/S4Cwrnn_Llk \r\nNatália: Nós aumentamos o nosso faturamento e vendemos pra mais clientes com a estratégia ZDG.\r\n\r\n📺 https://youtu.be/pu6PpNRJyoM \r\n Renato: A ZDG é um método que vai permitir você aumentar o seu faturamento em pelo menos 30%.\r\n\r\n📺 https://youtu.be/KHGchIAZ5i0 \r\nGustavo: A estratégia mais barata, eficiente e totalmente escalável.\r\n\r\n📺 https://youtu.be/XP2ns7TOdIQ \r\nYuri: A ferramenta me ajudou muito com as automações da minha loja online.\r\n\r\n📺 https://www.youtube.com/watch?v=08wzrPorZcI \r\nGabi: Implementei a estratégia sem saber nada de programação\r\n\r\n📺 https://www.youtube.com/watch?v=mHqEQp94CiE \r\nLéo: Acoplamos o Método ZDG aos nossos lançamento e otimizamos os nossos resultados.");
-  }
-  
-  else if (msg.body !== null && msg.body.includes("O que vou receber entrando para a turma da ZDG?")) {
+  } else if (msg.body !== null && msg.body.includes("O que vou receber entrando para a turma da ZDG?")) {
     msg.reply("Tudo que você vai ter acesso na Comunidade ZDG.\r\n\r\nMétodo ZDG: R$5.000,00\r\nBot gestor de grupos: R$1.500,00\r\nMulti-disparador via API: R$1.800,00\r\nWebhooks: R$5.200,00\r\nExtensão do Chrome para extração: R$150,00\r\nPacote de aulas sobre grupos de WhatsApp: R$600,00\r\nPacote de aulas + downloads para implementação dos ChatBots: R$5.000,00\r\nPacote de aulas + downloads para notificações automáticas por WhatsApp: R$4.600,00\r\n\r\nNo total, tudo deveria custar:\r\nR$ 23.850,00\r\nMas você vai pagar apenas: R$197,00");
-  }
-  
-  else if (msg.body !== null && msg.body.includes("Gostaria de falar com o Pedrinho, mas obrigado por tentar me ajudar.")) {
+  } else if (msg.body !== null && msg.body.includes("Gostaria de falar com o Pedrinho, mas obrigado por tentar me ajudar.")) {
 
-        const contact = await msg.getContact();
-        setTimeout(function() {
-            msg.reply(`@${contact.number}` + ' seu contato já foi encaminhado para o Pedrinho');  
-            client.sendMessage('5515998566622@c.us','Contato ZDG. https://wa.me/' + `${contact.number}`);
-          },1000 + Math.floor(Math.random() * 1000));
-  
-  }
-  
-  else if (msg.body !== null && msg.body.includes("Quero aprender como montar minha API de WhatsApp de GRAÇA.")) {
+    const contact = await msg.getContact();
+    setTimeout(function () {
+      msg.reply(`@${contact.number}` + ' seu contato já foi encaminhado para o Pedrinho');
+      client.sendMessage('5515998566622@c.us', 'Contato ZDG. https://wa.me/' + `${contact.number}`);
+    }, 1000 + Math.floor(Math.random() * 1000));
+
+  } else if (msg.body !== null && msg.body.includes("Quero aprender como montar minha API de WhatsApp de GRAÇA.")) {
     msg.reply("Aproveite o conteúdo e aprenda em poucos minutos como colocar sua API de WhatsAPP no ar, gratuitamente:\r\n\r\n🎥 https://youtu.be/899mKB3UHdI");
-  }
-  
-  else if (msg.body !== null) {
-    let sections = [{title:'Escolha a opção desejada',rows:[{title:'1- Quero saber mais sobre o Método ZDG.', description: 'Entre agora para nossa comunidade.'},{title:'2- Gostaria de conhecer alguns estudos de caso.', description: 'Aplique o método e colha os resultados.'},{title:'3- O que vou receber entrando para a turma da ZDG?', description: 'Mais de R$20.000,00 somente em BÔNUS.'},{title:'4- Gostaria de falar com o Pedrinho, mas obrigado por tentar me ajudar.', description: 'Clica aqui que eu transfiro pra ele.'},{title:'5- Quero aprender como montar minha API de WhatsApp de GRAÇA.', description: 'Tutorial mamão com açúcar.'}]}];
-    let list = new List('😁 Olá, tudo bem? Como vai você? Escolha uma das opções abaixo para iniciarmos a nossa conversa:','Clique aqui',sections,'ZAP das Galáxias','© ZDG');
+  } else if (msg.body !== null) {
+    let sections = [{
+      title: 'Escolha a opção desejada',
+      rows: [{
+        title: '1- Quero saber mais sobre o Método ZDG.',
+        description: 'Entre agora para nossa comunidade.'
+      }, {
+        title: '2- Gostaria de conhecer alguns estudos de caso.',
+        description: 'Aplique o método e colha os resultados.'
+      }, {
+        title: '3- O que vou receber entrando para a turma da ZDG?',
+        description: 'Mais de R$20.000,00 somente em BÔNUS.'
+      }, {
+        title: '4- Gostaria de falar com o Pedrinho, mas obrigado por tentar me ajudar.',
+        description: 'Clica aqui que eu transfiro pra ele.'
+      }, {
+        title: '5- Quero aprender como montar minha API de WhatsApp de GRAÇA.',
+        description: 'Tutorial mamão com açúcar.'
+      }]
+    }];
+    let list = new List('😁 Olá, tudo bem? Como vai você? Escolha uma das opções abaixo para iniciarmos a nossa conversa:', 'Clique aqui', sections, 'ZAP das Galáxias', '© ZDG');
     client.sendMessage(msg.from, list);
   }
 
@@ -92,7 +110,7 @@ client.on('message', async msg => {
 client.initialize();
 
 // Socket IO
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
   client.on('qr', (qr) => {
@@ -113,22 +131,22 @@ io.on('connection', function(socket) {
     socket.emit('message', 'Whatsapp is authenticated!');
     console.log('AUTHENTICATED', session);
     sessionCfg = session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
+    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
       if (err) {
         console.error(err);
       }
     });
   });
 
-  client.on('auth_failure', function(session) {
+  client.on('auth_failure', function (session) {
     socket.emit('message', 'Auth failure, restarting...');
   });
 
   client.on('disconnected', (reason) => {
     socket.emit('message', 'Whatsapp is disconnected!');
-    fs.unlinkSync(SESSION_FILE_PATH, function(err) {
-        if(err) return console.log(err);
-        console.log('Session file deleted!');
+    fs.unlinkSync(SESSION_FILE_PATH, function (err) {
+      if (err) return console.log(err);
+      console.log('Session file deleted!');
     });
     client.destroy();
     client.initialize();
@@ -136,7 +154,7 @@ io.on('connection', function(socket) {
 });
 
 
-const checkRegisteredNumber = async function(number) {
+const checkRegisteredNumber = async function (number) {
   const isRegistered = await client.isRegisteredUser(number);
   return isRegistered;
 }
@@ -218,9 +236,9 @@ app.post('/send-media', async (req, res) => {
   });
 });
 
-const findGroupByName = async function(name) {
+const findGroupByName = async function (name) {
   const group = await client.getChats().then(chats => {
-    return chats.find(chat => 
+    return chats.find(chat =>
       chat.isGroup && chat.name.toLowerCase() == name.toLowerCase()
     );
   });
@@ -230,7 +248,9 @@ const findGroupByName = async function(name) {
 // Send message to group
 // You can use chatID or group name, yea!
 app.post('/send-group-message', [
-  body('id').custom((value, { req }) => {
+  body('id').custom((value, {
+    req
+  }) => {
     if (!value && !req.body.name) {
       throw new Error('Invalid value, you can use `id` or `name`');
     }
@@ -309,7 +329,7 @@ app.post('/clear-message', [
   }
 
   const chat = await client.getChatById(number);
-  
+
   chat.clearMessages().then(status => {
     res.status(200).json({
       status: true,
@@ -332,7 +352,7 @@ app.post('/send-button', [
   body('bt3').notEmpty(),
   body('buttonTitle').notEmpty(),
   body('buttonFooter').notEmpty()
-  
+
 ], async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
@@ -354,7 +374,13 @@ app.post('/send-button', [
   const bt3 = req.body.bt3;
   const buttonTitle = req.body.buttonTitle;
   const buttonFooter = req.body.buttonFooter;
-  const button = new Buttons(buttonBody,[{body:bt1},{body:bt2},{body:bt3}],buttonTitle,buttonFooter);
+  const button = new Buttons(buttonBody, [{
+    body: bt1
+  }, {
+    body: bt2
+  }, {
+    body: bt3
+  }], buttonTitle, buttonFooter);
 
   const isRegisteredNumber = await checkRegisteredNumber(number);
 
@@ -389,7 +415,7 @@ app.post('/send-list', [
   body('btnText').notEmpty(),
   body('Title').notEmpty(),
   body('footer').notEmpty()
-  
+
 ], async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
@@ -415,8 +441,17 @@ app.post('/send-list', [
   const Title = req.body.Title;
   const footer = req.body.footer;
 
-  const sections = [{title:sectionTitle,rows:[{title:ListItem1, description: desc1},{title:ListItem2, description: desc2}]}];
-  const list = new List(List_body,btnText,sections,Title,footer);
+  const sections = [{
+    title: sectionTitle,
+    rows: [{
+      title: ListItem1,
+      description: desc1
+    }, {
+      title: ListItem2,
+      description: desc2
+    }]
+  }];
+  const list = new List(List_body, btnText, sections, Title, footer);
 
   const isRegisteredNumber = await checkRegisteredNumber(number);
 
@@ -440,6 +475,6 @@ app.post('/send-list', [
   });
 });
 
-server.listen(port, function() {
+server.listen(port, function () {
   console.log('App running on *: ' + port);
 });
